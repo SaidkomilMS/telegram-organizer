@@ -1,0 +1,30 @@
+# /stats and /digest (DESIGN §11.2 reports.py). HTML is allowed; {placeholders} are filled
+# with str.format. Titles and topic names are HTML-escaped by bot/reports.py.
+
+reports_help_stats = "every chat's volume, signal and repeats (/stats all includes chats you left)"
+reports_help_digest = "send the digest now (/digest preview shows tonight's without sending)"
+
+# --- /stats ---
+# The column heading must line up with the rows: signal, duplicates, volume, published, days.
+reports_stats = """<b>Chats over the last {days} days</b> ({count}), weakest signal first.
+sig = share sorted into a topic · dup = repeats of other chats · vol = messages · pub = published · day = days observed
+<pre>{table}</pre>"""
+reports_stats_columns = " sig  dup   vol  pub day  chat"
+reports_stats_topics = """<b>Topics over the last {days} days</b>
+{lines}"""
+reports_stats_topic_line = "{name}: {posts} posts, {immediate} would have gone out immediately"
+reports_stats_topic_no_channel = " (no channel yet)"
+reports_stats_empty = "No chats yet. They appear once the account has read some messages."
+reports_stats_usage = "Send /stats, or /stats all to include chats you left."
+
+# --- /digest ---
+reports_digest_nothing = "Nothing to send: no topic has posts waiting for the digest."
+reports_digest_sent = """Digest sent:
+{lines}"""
+reports_digest_line = "{topic}: {count} posts"
+reports_digest_line_retry = "{topic}: {count} posts — the channel refused it; it is retried every 10 minutes"
+
+# --- /digest preview ---
+reports_preview_prefix = "preview — "
+reports_preview_nothing = "Tonight's digest would be empty: no topic has posts waiting."
+reports_preview_empty_topics = "Nothing tonight for: {topics}"

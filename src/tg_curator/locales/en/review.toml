@@ -1,0 +1,54 @@
+# Subscription management (DESIGN §12): the proposal reasons, the outcome lines the proposal
+# messages are edited to, and the discovery texts. The proposal message bodies themselves are
+# the notify_proposal_* strings of notify.toml (sent through the Notifier); Approve / Skip /
+# Never ask again / Confirm / Cancel / Undo come from common.toml. HTML is allowed;
+# {placeholders} are filled with str.format.
+
+# --- reasons (plain words with the numbers; joined with ", ") ---
+review_reason = "{volume} posts in {days} days, {sorted} reached a topic"
+review_reason_repeats = "{percent}% were repeats of {source}"
+review_reason_archive = " — archive and mute"
+review_reason_admin = " (you are an admin; leaving drops that)"
+review_reason_cluster = "{count} unsorted posts in the last {days} days look like one topic"
+review_reason_merge = "{a} and {b} competed for {shared} of the same posts"
+
+# --- delivery ---
+review_held_back = "{count} more proposals are held back until the next review."
+review_example_link = "{n}. <a href=\"{url}\">{line}</a>"
+review_example_plain = "{n}. {line}"
+# the short description a connected language model wrote from the examples of a new topic
+review_topic_description = "<i>{description}</i>"
+
+# --- buttons of the discovery proposals ---
+review_btn_create = "Create"
+review_btn_rename = "Rename"
+review_btn_merge = "Merge"
+review_btn_dismiss = "Dismiss"
+
+# --- decisions (appended to the proposal message) ---
+review_confirm_leave = "⚠️ Leave <b>{title}</b>? This cannot be undone without a new invitation."
+review_approved = "Approved ✓ — will be done within minutes."
+review_approved_leave = "Approved ✓ — leaving soon: leaves are paced at most {per_day} a day and {minutes} min apart so the account never looks automated."
+review_skipped = "Skipped — it comes back in a later review if the numbers still justify it."
+review_never = "Never asked again about this chat."
+review_dismissed = "Dismissed."
+
+# --- outcomes written by the executor ---
+review_outcome_folder = "Moved to “{folder}” ✓"
+review_outcome_mute = "Muted until {date} ✓"
+review_outcome_archive = "Archived and muted ✓"
+review_outcome_leave = "Left ✓"
+review_outcome_undone = "Undone ✓"
+review_outcome_failed = "could not {verb}: {error}"
+review_outcome_flood = "Telegram asked to wait, retrying at {time}"
+review_outcome_topic_created = "Created the topic <b>{name}</b> ✓"
+review_outcome_merged = "Merged into <b>{name}</b> ✓"
+review_verb_folder = "move"
+review_verb_mute = "mute"
+review_verb_archive = "archive"
+review_verb_leave = "leave"
+review_error_creator = "you created this chat"
+review_error_not_member = "the account is not in this chat any more"
+review_error_chat_gone = "the chat cannot be found"
+review_error_not_source = "this chat is one of the curator's own channels"
+review_not_undoable = "Leaving cannot be undone without a new invitation."

@@ -1,0 +1,13 @@
+# Account binding (DESIGN §11.3): the plain sentences a refused login step is reported with.
+# AccountService re-raises every LoginError with one of these as its message, so the bind
+# flow and the CLI show the same words. {placeholders} are filled with str.format.
+
+account_error_bad_code = "Telegram did not accept that code. Check it and send it again, with a space between the digits (e.g. 1 2 3 4 5)."
+account_error_expired_code = "That code has expired. Ask for a new one and send it with a space between the digits."
+account_error_bad_password = "That two-factor password is not right. Try again."
+account_error_bad_phone = "Telegram does not know that phone number. Send it in international format, e.g. +998901234567."
+account_error_flood = "Telegram asks to wait {minutes} min before another sign-in attempt."
+account_error_other = "Telegram refused the sign-in: {detail}"
+account_error_no_code_pending = "No code was requested yet. Send the phone number first."
+account_error_no_password_pending = "No password is expected now. Send the phone number to start again."
+account_error_unreachable = "Telegram cannot be reached right now, so nothing was changed. Try again in a minute."

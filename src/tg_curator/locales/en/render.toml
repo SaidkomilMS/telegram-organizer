@@ -1,0 +1,28 @@
+# What the topic channels and digests show (DESIGN §9.4, §9.5), rendered by pipeline/render.py.
+# HTML is allowed; {placeholders} are filled with str.format. {topic} is HTML-escaped by
+# render.py before it reaches these strings. A sent digest part is found again by its stored
+# text, so changing these (or the language) never makes a digest go out twice.
+
+# --- the header line of a real-time post (and of a forward's button message) ---
+render_source = "source"
+render_more = "+{n} more"
+
+# --- the media line: "<icon> <noun> attached" or "<icon> <noun> at source" ---
+render_attached = "attached"
+render_at_source = "at source"
+render_media_photo = "photo"
+render_media_video = "video"
+render_media_file = "file"
+render_media_album = "album"
+render_media_other = "media"
+
+# --- stubs that replace a moved or retracted post ---
+render_stub_moved = "↪ moved to <b>{topic}</b>"
+render_stub_moved_short = "↪ moved"
+render_stub_not_for_me = "✕ not for me"
+render_stub_belongs = "↪ belongs in <b>{topic}</b>"
+
+# --- the daily digest ---
+render_digest_daily = "Daily digest"
+render_digest_manual = "Digest (manual {seq})"
+render_digest_link = "link"

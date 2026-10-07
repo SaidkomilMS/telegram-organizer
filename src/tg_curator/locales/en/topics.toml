@@ -1,0 +1,85 @@
+# /topics in the bot (DESIGN §11.2): list, add, edit, merge, remove. HTML is allowed;
+# {placeholders} are filled with str.format. Generic words (Edit, Remove, Keep, Done, Back,
+# Cancel) come from common.toml.
+
+topics_help = "list, add, edit, merge or remove topics"
+
+# --- the list ---
+topics_list_header = "<b>Your topics</b> ({count}). Posts are sorted into these; a topic without a channel is tracked only (counted, never posted)."
+topics_list_empty = "No topics yet. A topic is a name plus what it is about: a built-in category, a few example posts or an example channel."
+topics_add_button = "Add a topic"
+topics_card = "<b>{name}</b>\nchannel: {channel}\ncategory: {category}\nexamples and corrections: {examples}\ndescription: {description}\nstrictness: {strictness}"
+topics_none = "none"
+topics_no_channel = "none yet (tracked only)"
+topics_strictness_default = "default ({value})"
+topics_merge_button = "Merge"
+topics_create_channel_button = "Create channel"
+
+# --- the four example topics of the settings template ---
+topics_examples_intro = "The settings came with {count} example topics. Keep them as they are, edit them, or remove the ones you do not want:"
+topics_example_kept = "Kept: <b>{name}</b>."
+
+# --- /topics add ---
+topics_add_ask_name = "What should the new topic be called? Send its name, e.g. <i>ML &amp; AI</i>."
+topics_exists = "A topic named <b>{name}</b> already exists. Edit the existing one, or send another name."
+topics_edit_existing_button = "Edit the existing one"
+topics_add_what = "What is <b>{name}</b> about? Any combination works:\n• pick a built-in category below (now: {category});\n• forward a few posts that belong in it (any message of {chars}+ characters counts as an example);\n• send @username or the link of a channel that is a good example;\n• optionally, write a short description.\nTap <b>Done</b> when finished."
+topics_description_button = "Write a description"
+topics_add_ask_description = "Send a short description of the topic (one or two sentences)."
+topics_description_saved = "Description saved. It applies at once; /preview shows the last three days sorted with it."
+topics_example_saved = "Example saved ({count} so far); it applies at once, and /preview shows the last three days sorted with it. Forward more, or tap Done."
+topics_example_no_text = "This post has no text the classifier can learn from. Forward one with text or a caption, send a channel's @username or link, or tap a button."
+topics_example_too_short = "That is too short to be an example ({chars} characters at least). Forward a post, send a channel's @username or link, or tap a button."
+topics_example_channel_read = "Read {count} recent posts of {ref} as examples."
+topics_example_channel_gone = "Cannot find {ref}: check the username or the link."
+topics_join_first = "Join the chat in Telegram first, then send the link again."
+topics_add_sorts_nothing = "Note: <b>{name}</b> has neither a category nor example posts yet, so it will not sort anything. A description alone is weak: forward a few examples (or set a category) with /topics when you can."
+topics_add_ask_channel = "Where should <b>{name}</b> post?"
+topics_channel_create_button = "Create a private channel"
+topics_channel_link_button = "Use an existing one: send its link"
+topics_channel_none_button = "No channel yet"
+topics_channel_ask_link = "Send the @username or the link of the channel. Your account must be its creator or an admin; the bot is made an admin with Post Messages."
+topics_add_done = "Topic <b>{name}</b> is ready and posts into {channel}. /preview shows what it would have picked over the last three days."
+topics_add_done_no_channel = "Topic <b>{name}</b> is ready and tracked only: it is counted in /preview and /stats, nothing is posted. /topics offers to create its channel later."
+
+# --- channels ---
+topics_channel_wait = "Telegram asks to wait {minutes} min before another channel can be created; the channel will be created automatically then, and I will let you know."
+topics_channel_auto_created = "Telegram's wait is over: <b>{name}</b> now posts into its new channel {channel}, and the bot is an admin there."
+topics_channel_auto_created_no_rights = "Telegram's wait is over: the channel {channel} was created for <b>{name}</b> and linked to it, but the bot cannot post into it: add {bot} as an admin with Post Messages."
+topics_flood_wait = "Telegram asks to wait {minutes} min before trying again."
+topics_channel_error = "{error}"
+topics_channel_created = "<b>{name}</b> now posts into {channel}; the bot is an admin there."
+topics_channel_no_rights = "Channel {channel} was created for <b>{name}</b> and linked to it, but the bot cannot post into it: add {bot} as an admin with Post Messages."
+topics_channel_no_rights_fresh = "Channel {channel} was created for <b>{name}</b> and linked to it, but the bot cannot post into it yet. Telegram does not let a new session change admins yet; try again tomorrow or add {bot} by hand (as an admin with Post Messages)."
+
+# --- editing ---
+topics_field_name = "Name"
+topics_field_description = "Description"
+topics_field_category = "Category"
+topics_field_strictness = "Strictness"
+topics_field_channel = "Channel"
+topics_field_examples = "Add examples"
+topics_field_example_channel = "Example channel"
+topics_edit_ask_examples = "Forward a few more posts that belong in <b>{name}</b> (any message of {chars}+ characters counts as an example), or send @username or the link of a channel that is a good example. Each one is learned right away. Tap <b>Done</b> when finished."
+topics_edit_ask_example_channel = "Example channel of <b>{name}</b> now: {current}. Send the @username or the link of a channel that is a good example; its recent posts are read as examples."
+topics_edit_example_channel_not_a_ref = "That is not a channel: send its @username or its t.me link, or /cancel."
+topics_edit_ask_name = "Send the new name."
+topics_edit_ask_description = "Send the new description, or <code>-</code> to remove it."
+topics_edit_category = "Category of <b>{name}</b> (now: {category}):"
+topics_category_none_button = "No category"
+topics_page_prev = "‹ Back"
+topics_page_next = "More ›"
+topics_edit_strictness = "How sure must the classifier be before a post goes to <b>{name}</b>? Now: {current}. Higher means fewer, cleaner posts; lower means more posts and more mistakes."
+topics_strictness_proposed = "Strictness of <b>{name}</b>: {value}. Preview it on the last three days, or apply it."
+topics_preview_button = "Preview"
+topics_apply_button = "Apply"
+topics_strictness_preview = "Last three days for <b>{name}</b>: {now} posts now, {then} with strictness {value} (unsorted overall: {unsorted_now} → {unsorted_then})."
+topics_edit_channel = "<b>{name}</b> posts into {channel}. Create a new private channel, or use an existing one."
+
+# --- merge and remove ---
+topics_merge_pick = "Merge <b>{name}</b> into which topic? Its posts, examples and corrections move there."
+topics_merge_confirm = "Merge <b>{src}</b> into <b>{dst}</b>? <b>{src}</b> disappears; its channel ({channel}) is not touched and receives nothing new."
+topics_merged = "<b>{src}</b> was merged into <b>{dst}</b>."
+topics_remove_confirm = "Remove <b>{name}</b>? Its history and statistics are kept. The channel ({channel}) is not touched: it stays yours and simply receives nothing new."
+topics_removed = "<b>{name}</b> was removed. Its channel {channel} was not touched; delete it in Telegram if you no longer need it."
+topics_removed_no_channel = "<b>{name}</b> was removed; its history is kept."

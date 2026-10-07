@@ -1,0 +1,45 @@
+# The weekly review in the bot (DESIGN §11.2 bot/review.py): /review, /undo, the button
+# acknowledgements and the Rename conversation. The proposal messages themselves, their
+# reasons and the lines they are edited to come from notify.toml and review.toml. HTML is
+# allowed; {placeholders} are filled with str.format.
+
+# --- /help lines ---
+review_bot_help_review = "send the weekly review now"
+review_bot_help_undo = "reply to a proposal message to reverse what it did"
+
+# --- /review ---
+review_bot_sent_one = "One proposal sent above. Nothing happens until you tap Approve."
+review_bot_sent_many = "{count} proposals sent above. Nothing happens until you tap Approve on one."
+review_bot_nothing = "Nothing to propose right now: no chat meets the cleanup rules and no new topic has formed."
+review_bot_unavailable = "The review is not running yet. Send /status to see what is missing."
+
+# --- acknowledgements of a tap (short toasts; the proposal message shows the full state) ---
+review_bot_ack_approve = "Approved. It will be done within minutes."
+review_bot_ack_confirm = "Leaving cannot be undone: confirm below."
+review_bot_ack_leave = "Approved. Leaving soon (paced)."
+review_bot_ack_cancel = "Cancelled. Nothing was changed."
+review_bot_ack_skip = "Skipped."
+review_bot_ack_never = "This chat will not be proposed again."
+review_bot_ack_undo = "Undone."
+review_bot_ack_dismiss = "Dismissed."
+review_bot_ack_merged = "Merged."
+review_bot_btn_yes_leave = "Yes, leave"
+review_bot_refused = "{reason}"
+
+# --- /undo ---
+review_bot_undo_how = "Send /undo as a reply to the proposal message whose action you want reversed."
+review_bot_undo_not_proposal = "That message is not a proposal. Reply /undo to a proposal message from the review."
+review_bot_undo_nothing = "Nothing was carried out for that proposal, so there is nothing to undo."
+review_bot_undone = "Undone ✓"
+
+# --- new topics: Create / Rename ---
+review_bot_rename_prompt = "Send the name for the new topic (suggested: <b>{name}</b>)."
+review_bot_rename_empty = "The name cannot be empty. Send the name for the new topic."
+review_bot_name_taken_create = "A topic named <b>{name}</b> already exists. Tap Rename to choose another name, or Dismiss."
+review_bot_name_taken_rename = "A topic named <b>{name}</b> already exists. Send another name."
+review_bot_created = "Created the topic <b>{name}</b>."
+review_bot_channel_ready = "Its private channel <b>{channel}</b> is ready: new posts on this topic go there."
+review_bot_channel_no_bot = "Its private channel <b>{channel}</b> exists, but the bot cannot post into it yet: add @{bot} as an admin with Post Messages."
+review_bot_channel_wait = "Telegram asks to wait {minutes} min before another channel can be created; the channel will be created automatically then, and I will let you know. Until then the topic is tracked in the statistics only."
+review_bot_channel_none = "It has no channel yet; it will be created automatically as soon as Telegram allows, and I will let you know. Until then the topic is tracked in the statistics only."
+review_bot_absorbed = "{count} unsorted posts from the last {days} days were sorted into it."

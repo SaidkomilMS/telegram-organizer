@@ -1,0 +1,10 @@
+# The [Wrong topic] menu (DESIGN §11.2, §9.8). Button labels and callback answers; the
+# answers are shown as a short toast, so they are plain text (no HTML). {topic} is a name.
+
+corrections_wrong_topic = "Wrong topic"
+corrections_not_for_me = "Not for me"
+corrections_moved = "Now in {topic}. The curator learns from this."
+corrections_relabelled = "A forwarded post cannot be moved: it stays here, marked as belonging in {topic}. The curator learns from this."
+corrections_not_for_me_done = "Marked not for me. The curator learns from this."
+corrections_refused = "This post is a repeat of an earlier one; correct the original instead."
+corrections_topic_gone = "That topic does not exist any more; pick another one."

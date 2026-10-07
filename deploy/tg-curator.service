@@ -1,0 +1,33 @@
+# systemd unit for tg-curator (pip install). Install with:
+#   sudo useradd --system --home-dir /var/lib/tg-curator --shell /usr/sbin/nologin tg-curator
+#   curator --service-file | sudo tee /etc/systemd/system/tg-curator.service
+# then fill in /var/lib/tg-curator/settings.toml (the first start writes it) and run
+#   sudo systemctl daemon-reload && sudo systemctl enable --now tg-curator
+# ExecStart must point at your `curator` (see `command -v curator`); the logs, including the
+# one-time claim code, are in `journalctl -u tg-curator`.
+
+[Unit]
+Description=tg-curator: Telegram channels sorted into topic channels and a daily digest
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=simple
+User=tg-curator
+Group=tg-curator
+StateDirectory=tg-curator
+StateDirectoryMode=0700
+Environment=TG_CURATOR_HOME=/var/lib/tg-curator
+ExecStart=/usr/local/bin/curator run
+Restart=on-failure
+RestartSec=10
+# Exit code 2 means the settings need fixing; restarting would not help.
+RestartPreventExitStatus=2
+UMask=0077
+ProtectSystem=strict
+ProtectHome=yes
+PrivateTmp=yes
+NoNewPrivileges=yes
+
+[Install]
+WantedBy=multi-user.target

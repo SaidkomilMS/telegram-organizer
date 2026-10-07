@@ -1,0 +1,28 @@
+# The bot framework (DESIGN §11.1): claiming the bot, /help and the fallbacks of the router.
+# Generic strings (unknown_command, flow_cancelled, error_*) live in common.toml. HTML is
+# allowed; {placeholders} are filled with str.format.
+
+# --- claiming the bot (before an owner exists) ---
+core_claim_prompt = "This bot has no owner yet. Send the claim code printed in the service log (or <code>/start CODE</code>) to become its owner."
+core_claim_wrong = "That code is not right. {left} attempts left before a new code is printed."
+core_claim_regenerated = "Too many wrong attempts: a new claim code was printed in the service log. Send that one."
+core_claimed = "You are now the owner of this bot; everyone else is ignored from now on. Send /setup to continue, or /help for the list of commands."
+
+# --- routing fallbacks ---
+core_error_refused = "{error}"
+core_error_unavailable = "Telegram cannot be reached right now; nothing was changed. Try again in a minute."
+core_idle = "Nothing is waiting for a reply right now. Send /help for the list of commands."
+
+# --- a message holding a secret that Telegram refused to delete; {what} is one of the nouns ---
+core_secret_not_deleted = "⚠️ I could not delete your message with the {what}. Delete it yourself now (long-press it, then Delete for both)."
+core_secret_code = "login code"
+core_secret_password = "password"
+core_secret_token = "token"
+core_secret_key = "API key"
+core_secret_message = "secret"
+
+# --- /help ---
+core_help = "Commands:\n{lines}"
+core_help_line = "/{name} — {text}"
+core_help_line_bare = "/{name}"
+core_help_help = "this list"

@@ -1,0 +1,43 @@
+# Lint and test on every push and pull request. No network beyond package installs, no
+# Telegram, no model download (the real-model tests are skipped without TG_CURATOR_TEST_MODELS).
+name: ci
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    services:
+      # The store and migration tests run a second time against PostgreSQL.
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_PASSWORD: test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - name: Install
+        run: pip install -e ".[dev,postgres]" pyyaml
+      - name: Ruff
+        run: |
+          ruff check src tests
+          ruff format --check src tests
+      - name: Tests
+        env:
+          TG_CURATOR_TEST_PG_URL: postgresql+asyncpg://postgres:test@localhost:5432/postgres
+        run: pytest -q

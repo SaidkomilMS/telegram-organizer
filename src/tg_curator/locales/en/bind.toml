@@ -1,0 +1,20 @@
+# /bind (DESIGN §11.2): linking the account by phone, code and optional 2FA password.
+# HTML is allowed; {placeholders} are filled with str.format.
+
+bind_help_bind = "link or re-link your Telegram account"
+
+bind_relink = "Currently {current}. Binding again signs the new login in beside that session and replaces it only once the login succeeds; until then, and if you stop half-way, nothing changes."
+bind_ask_phone = "Send the phone number of your Telegram account in international format, e.g. <code>+998901234567</code>."
+bind_phone_invalid = "That does not look like a phone number. Send it in international format, e.g. <code>+998901234567</code>."
+bind_no_account_client = "The service has no account client (the Telegram API values are missing in the settings file). Fill them in, restart the service and send /bind again."
+bind_ask_code = "Telegram sent a login code to your Telegram app. Type it here <b>with a space between every digit</b>, e.g. <code>1 2 3 4 5</code> — Telegram cancels a code that is sent as it is. The message is deleted right after it is read."
+bind_code_no_digits = "No digits in that message. Type the code with a space between every digit, e.g. <code>1 2 3 4 5</code>."
+bind_code_rejected = "Telegram did not accept that code. It was probably sent without spaces, which makes Telegram cancel it. Tap <b>Send a new code</b> and type the new one with a space between every digit, e.g. <code>1 2 3 4 5</code>."
+bind_send_new_code = "Send a new code"
+bind_code_resent = "A new code is on its way. Type it with a space between every digit, e.g. <code>1 2 3 4 5</code>."
+bind_ask_password = "This account has a two-factor password. Send it now; the message is deleted right after it is read and the password is never stored."
+bind_restarted = "That login is no longer waiting for this (the service restarted, or the login was left unfinished for too long), so the code can no longer be used. Send the phone number again to get a new one."
+bind_logged_in_as = "logged in as <b>{name}</b>{username}"
+bind_logged_in = "logged in"
+bind_done = "✓ Account bound: {line}. It stays bound on the server; nothing asks again."
+bind_continue = "Continue setup"

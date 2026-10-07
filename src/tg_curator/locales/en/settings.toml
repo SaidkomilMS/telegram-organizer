@@ -1,0 +1,115 @@
+# /settings — the tunable keys from the bot (DESIGN §11.2 settings.py). HTML is allowed;
+# {placeholders} are filled with str.format. Names and titles are HTML-escaped by
+# bot/settings.py before they reach these strings.
+
+settings_help_settings = "digest time and length, posting style, strictness, review day, trusted sources"
+
+# --- the menu ---
+settings_menu = """<b>Settings</b>
+{lines}
+
+Tap what to change. Sorting changes can be previewed on the last days of real posts first."""
+settings_menu_line = "{label}: <b>{value}</b>"
+settings_pick_button = "Tap one of the buttons above."
+
+# --- labels and what moving each key does ---
+settings_label_timezone = "Timezone"
+settings_hint_timezone = "Your timezone, as an IANA name such as Asia/Tashkent or Europe/Berlin; the digest and review hours are local to it."
+settings_label_digest_hour = "Digest hour"
+settings_hint_digest_hour = "The hour (0–23) the daily digest is sent, in your timezone (see Timezone)."
+settings_label_digest_minute = "Digest minute"
+settings_hint_digest_minute = "The minute (0–59) of the digest hour."
+settings_label_digest_items = "Digest length"
+settings_hint_digest_items = "How many posts each daily digest lists."
+settings_label_digest_line_chars = "Digest line length"
+settings_hint_line_chars = "The longest a digest line may be, in characters (at least 20)."
+settings_label_confidence = "Sorting confidence"
+settings_hint_confidence = "How sure the classifier must be to sort a post (0–1). Good posts left unsorted → lower it; wrong posts in a topic → raise it."
+settings_label_realtime_strength = "Real-time strength"
+settings_hint_realtime_strength = "How strong a post must be to go out immediately. Too much in real time → raise it; stories that mattered waited for the digest → lower it."
+settings_label_duplicate_similarity = "Duplicate similarity"
+settings_hint_duplicate_similarity = "How alike two posts must be to count as the same story (0–1). The same story posted twice → lower it; different stories merged → raise it."
+settings_label_hold_minutes = "Hold time"
+settings_hint_hold_minutes = "Minutes a sorted post waits for other chats to carry it before it goes to the digest. Applies at once: a preview of past posts would show the same numbers, since a post carried by other chats later is still sent before its digest."
+settings_label_min_chars = "Group minimum length"
+settings_hint_min_chars = "Group conversations shorter than this many characters are counted but never sorted; a forward from a channel needs a quarter of it, a shared link a few words."
+settings_label_review_hour = "Review hour"
+settings_hint_review_hour = "The hour (0–23) of the weekly review, in your timezone (see Timezone)."
+settings_label_leaves_per_day = "Leaves per day"
+settings_hint_leaves_per_day = "At most this many approved leaves are carried out per day."
+settings_label_leave_interval = "Minutes between leaves"
+settings_hint_leave_interval = "At least this many minutes pass between two approved leaves."
+settings_label_style = "Posting style"
+settings_label_weekday = "Review day"
+settings_label_strictness = "Topic strictness"
+settings_label_sources = "Trusted sources"
+
+# --- typed values ---
+settings_value_prompt = """<b>{label}</b> — now <b>{current}</b>
+{hint}
+
+Send the new value."""
+settings_not_number = "That is not a number. Send just the value, for example <code>20</code> or <code>0.6</code>."
+settings_invalid = "Not saved: {error}"
+settings_saved = "Saved: {label} = <b>{value}</b>."
+
+# --- proposals for sorting keys and topic strictness ---
+settings_propose = """{label}: {current} → <b>{value}</b>
+
+<b>Preview</b> replays the last {days} days with the new value; nothing is written until you tap <b>Apply</b>."""
+settings_preview_button = "Preview"
+settings_apply_button = "Apply"
+settings_preview = """<b>Preview, last {days} days</b> — {label}: {current} → <b>{value}</b>
+<i>now → with the new value</i>
+{lines}
+
+Nothing was changed yet."""
+settings_preview_line = "{name}: {current} → {proposed}"
+settings_preview_repeats = "repeats"
+settings_preview_unsorted = "unsorted"
+settings_preview_realtime = "would go out immediately"
+
+# --- per-topic strictness ---
+settings_no_topics = "There are no topics yet. Add one with /topics."
+settings_strictness_pick = "Which topic? A topic's own strictness replaces the general sorting confidence for it alone."
+settings_strictness_prompt = """Strictness of <b>{topic}</b> — now {current}.
+How sure the classifier must be for this topic only (0–1). Send 0 to use the general sorting confidence."""
+settings_strictness_label = "Strictness of {topic}"
+settings_strictness_general = "the general {confidence}"
+
+# --- posting style ---
+settings_style_prompt = "Posting style — now <b>{current}</b>. Repost: the bot writes the post and attaches the original media. Forward: your account forwards the original."
+settings_style_repost = "Repost"
+settings_style_forward = "Forward"
+settings_style_forward_saved = "Saved: forward style. Forwards keep Telegram's attribution; the bot adds a short line with the source, +N and the [Wrong topic] button under each. A forward cannot be moved: after a correction it stays where it is and only its label changes. Group threads and protected channels are always reposted."
+settings_style_repost_saved = "Saved: repost style."
+settings_style_repost_live = "Saved: repost style. A private channel 'tg-curator media' hands media to the bot; keep it, nobody else sees it."
+
+# --- review day ---
+settings_weekday_prompt = "On which day should the weekly review arrive?"
+settings_weekday_monday = "Monday"
+settings_weekday_tuesday = "Tuesday"
+settings_weekday_wednesday = "Wednesday"
+settings_weekday_thursday = "Thursday"
+settings_weekday_friday = "Friday"
+settings_weekday_saturday = "Saturday"
+settings_weekday_sunday = "Sunday"
+
+# --- trusted sources ---
+settings_sources = """<b>Trusted sources</b>
+{lines}"""
+settings_sources_none = "None yet: every chat is neutral."
+settings_source_line = "{title} — {trust}"
+settings_source_add = "Add a source"
+settings_source_remove = "Remove {title}"
+settings_source_prompt = "Send the chat as @username or a t.me link."
+settings_source_no_account = "No account is bound yet, so the chat cannot be looked up. Send /bind first."
+settings_trust_prompt = "How much should <b>{title}</b> be trusted?"
+settings_trust_0 = "0 · digest only"
+settings_trust_1 = "1 · neutral"
+settings_trust_2 = "2 · needs less corroboration"
+settings_trust_3 = "3 · always immediate"
+settings_trust_label = "Trust of {title}"
+settings_trust_unlisted = "not listed (neutral)"
+settings_source_added = "Saved: <b>{title}</b> — {trust}.{unresolved}"
+settings_source_removed = "Removed <b>{title}</b>; it is neutral again.{unresolved}"

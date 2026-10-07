@@ -1,0 +1,36 @@
+# secrets and runtime state (whoever holds the session holds the account). A settings.toml is
+# ignored at any depth, so a home inside the checkout (`./data` bind mount, `--home ./home`)
+# never reaches a commit; the bot's own message catalogue locales/en/settings.toml is not one.
+.env
+*.session
+*.session*
+settings.toml
+!/src/tg_curator/locales/**/settings.toml
+/data/
+*.db
+*.db-wal
+*.db-shm
+curator.db*
+/models/
+/messages.toml
+/control.sock
+/service.lock
+
+# python
+__pycache__/
+*.py[cod]
+*.egg-info/
+dist/
+build/
+.venv/
+.pytest_cache/
+.ruff_cache/
+
+# editors
+.idea/
+.vscode/
+*.swp
+.DS_Store
+
+# build-time contract, research and workflow scripts (not part of the release)
+.build/

@@ -1,0 +1,45 @@
+# /start and /setup (DESIGN §11.2): the seven-step walkthrough of spec "Setting up".
+# HTML is allowed; {placeholders} are filled with str.format.
+
+setup_help_start = "welcome and where setup stands"
+setup_help_setup = "the setup walkthrough, continued from where it stopped"
+
+setup_welcome = "Hello! I am your curator bot. Setup is at step {number} of {total}: send /setup to continue, or /help for every command."
+setup_welcome_done = "Hello! Everything is set up. /status shows how it runs, /help lists every command."
+
+# --- the checklist ---
+setup_title = "<b>Setup</b>"
+setup_line_done = "✓ {number}. {line}"
+setup_line_current = "→ {number}. {line}"
+setup_installed = "installed and running"
+setup_claimed = "bot claimed: you are its owner"
+setup_title_bind = "bind your Telegram account"
+setup_title_topics = "create the topics"
+setup_title_llm = "connect a language model, or skip this"
+setup_title_preview = "preview the last three days"
+setup_title_go = "go live"
+setup_complete = "Setup is complete. /status shows how everything runs; every step can be repeated at any time with its own command."
+
+# --- confirmations of finished steps (the bind and topics lines come from bind.toml / control.toml) ---
+setup_llm_none = "no language model: the digest shows the first line of each post and nothing leaves the server"
+setup_llm_provider = "language model: {provider}, {model}"
+setup_llm_selfhosted = "language model: {model} on your server at {url}"
+setup_preview_done = "preview: the last three days were read {when}"
+setup_live_since = "live since {when}"
+setup_live_paused = "(paused — /resume)"
+
+# --- the current step ---
+setup_bind_intro = "<b>Step {number} of {total} — bind your account.</b> Your account is used for reading, for copying media into your own channels and for creating them when you ask; it never messages anyone."
+setup_topics_intro = "<b>Step {number} of {total} — create the topics.</b> Keep, edit or remove the example topics and add your own; a topic needs a channel before anything is posted into it. When at least one topic has a channel, send /setup to continue."
+setup_llm_intro = "<b>Step {number} of {total} — language model.</b> A connected model writes the one-line digest summaries and names new topics. Without one the digest shows the first line of each post and nothing leaves the server."
+setup_llm_choose = "Choose a model"
+setup_llm_skip = "No model — continue"
+setup_preview_intro = "<b>Step {number} of {total} — preview.</b> The bot reads the last three days from every chat and shows how they would have been sorted. Nothing is posted."
+setup_go_intro = "<b>Step {number} of {total} — go live.</b> Real-time posts start as soon as a source publishes something that qualifies, and the first digest arrives at the configured hour."
+setup_go_button = "Go live"
+setup_timezone_prompt = "Before going live: which timezone is your day in? The digest is set for <b>{hour}</b> and the weekly review for its hour, both in that zone; it is UTC now. Tap a button, or choose another zone (an IANA name such as Asia/Tashkent)."
+setup_timezone_server = "Use {zone} (the server's zone)"
+setup_timezone_other = "Another zone…"
+setup_timezone_keep = "Keep UTC"
+setup_timezone_saved = "Timezone: <b>{zone}</b>. The digest and review hours are local to it."
+setup_send_command = "Send {command} to do this step, then /setup to continue."

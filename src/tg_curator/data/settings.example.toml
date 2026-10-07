@@ -1,0 +1,187 @@
+# tg-curator settings
+#
+# This is the one file that configures everything. Every key below is shown with its default
+# and a one-line explanation; the bot's /settings and /topics edit the same file, keeping
+# your comments. Edits made in the bot apply at once. Hand edits apply on /reload in the bot
+# (or the next start), except [telegram] and [storage], which need a restart of the service.
+#
+# Keep this file private: it holds your Telegram API hash and bot token (0600 is set for you).
+
+[telegram]
+api_id = 0            # from my.telegram.org -> "API development tools"
+api_hash = ""         # same page; keep it secret
+bot_token = ""        # from @BotFather (the bot that posts into your topic channels)
+owner_id = 0          # filled in when you claim the bot with /start <code> (or by `curator login`)
+
+[general]
+timezone = "UTC"      # IANA name such as "Europe/Berlin" or "Asia/Tashkent"; schedules use it
+language = "en"       # bot language; add a folder locales/<code>/ or a messages.toml to translate
+
+[publishing]
+live = false          # set by /go (or by hand): until then nothing is ever posted
+style = "repost"      # "repost": the bot writes the post and attaches a copy of the media
+                      # "forward": your account forwards the original (no Wrong-topic button,
+                      #            no +N; protected channels fall back to repost)
+min_gap_seconds = 20  # minimum spacing between two posts into the same channel
+staging_channel = 0   # filled in automatically: a private channel used to hand media to the bot
+
+[sorting]
+# How sure the classifier must be before a post is sorted into a topic (0..1).
+#   good posts stay unsorted            -> lower it (0.4)
+#   posts land in the wrong topic       -> raise it (0.6)
+confidence = 0.5
+# How strong a post must be to go out immediately instead of waiting for the digest.
+#   too much goes out in real time      -> raise it (4.0)
+#   important stories only reach digest -> lower it (2.0)
+realtime_strength = 3.0
+# How similar two posts must be (0..1) to count as the same story told in other words.
+#   the same story is posted twice      -> lower it (0.85)
+#   different stories are merged        -> raise it (0.95)
+duplicate_similarity = 0.9
+# The same, for two posts written in different languages (a translation scores a little lower
+# than a same-language rewording). Move it together with duplicate_similarity.
+duplicate_similarity_cross = 0.86
+dedup_window_days = 3          # a repeat is a match against posts seen within this many days
+hold_minutes = 45              # how long a sorted post waits for corroboration before going to the digest
+neutral_trust = 1.0            # the trust of a source that is not listed under [[sources]]
+corroboration_weight = 1.0     # strength gained per other chat that carried the same story
+link_bonus = 0.25              # strength gained for carrying an outside link
+length_bonus = 0.25            # strength gained for being long (see length_bonus_chars)
+length_bonus_chars = 600       # "long" means at least this many characters
+second_opinion = false         # ask the connected language model about borderline posts (costs a request each)
+
+[groups]
+min_chars = 400                # conversation units shorter than this are counted but never sorted;
+                               # a forward from a channel needs a quarter of it, a shared link a few words
+unit_gap_minutes = 5           # messages by the same person within this window form one unit
+
+[digest]
+hour = 21                      # local hour the daily digest is sent
+minute = 0                     # minute of that hour
+items = 15                     # how many posts a digest lists
+window_hours = 26              # posts older than this never make the digest
+line_chars = 180               # length of one digest line
+
+[review]
+weekday = "sunday"             # day of the weekly review
+hour = 11                      # local hour of the weekly review
+window_days = 30               # statistics and proposals look at the last N days
+max_proposals = 20             # proposals per review; the rest wait for next week
+mute_days = 30                 # an approved mute lasts this long
+leave_min_days = 30            # a chat is proposed for leaving only after this many days of observation
+leaves_per_day = 3             # at most this many approved leaves are carried out per day
+leave_interval_minutes = 30    # and never faster than one per this many minutes
+folder_min_days = 7            # "Low signal" folder: observed at least this long ...
+folder_max_signal = 0.05       # ... with at most this share of posts reaching a topic ...
+folder_min_posts = 10          # ... and at least this many posts
+mute_min_days = 14             # mute: observed at least this long ...
+mute_max_signal = 0.03         # ... with at most this share reaching a topic ...
+mute_min_duplicates = 0.6      # ... and at least this share of pure repeats
+archive_min_days = 30          # archive: observed at least this long (before that, folder or mute) ...
+archive_max_signal = 0.02      # ... with at most this share reaching a topic
+cluster_min_posts = 30         # unsorted posts needed for a new-topic proposal ...
+cluster_window_days = 7        # ... within this many days
+# How tight a cluster of unsorted posts must be (0..1) to be proposed as a new topic.
+#   no topics are ever proposed  -> lower it (0.7)
+#   proposed topics look random  -> raise it (0.9)
+cluster_tightness = 0.6
+# Two topics scoring within this of each other on the same posts are proposed for merging.
+merge_margin = 0.3
+auto_create_topics = false     # true: create proposed topics without asking and notify afterwards
+
+[folders]
+curated = true                 # keep a Telegram folder with the topic channels
+low_signal = true              # keep a Telegram folder with the chats flagged as low signal
+curated_name = "Curated"       # at most 12 characters (Telegram's folder title limit)
+low_signal_name = "Low signal" # at most 12 characters
+
+[llm]
+mode = "none"                  # "none": digest lines are first lines, nothing leaves the server
+                               # "selfhosted": any OpenAI-compatible server (Ollama, vLLM, LM Studio, llama.cpp)
+                               # "provider": anthropic | openai | google | mistral | openrouter
+provider = ""                  # provider key when mode = "provider"
+model = ""                     # model name (the bot offers a short list; any id is accepted)
+base_url = ""                  # address of the self-hosted server, e.g. "http://localhost:11434/v1"
+api_key = ""                   # provider key or self-hosted token; set up with /llm, kept secret
+monthly_cap_usd = 0.0          # provider spending cap per month; 0 = no cap
+timeout_seconds = 30           # per request; can only raise the built-in floor, never lower it:
+                               # the wait is max(this, 60) for a provider and max(this, 180)
+                               # self-hosted. Raise it if a slow self-hosted model keeps timing out
+
+[ml]
+# The local similarity model (intfloat/multilingual-e5-small, downloaded once, about 150 MB).
+#   embedder_file: "onnx/model_qint8_avx512_vnni.onnx" is the small, fast int8 file (default);
+#   "onnx/model.onnx" is the full-precision file — switch to it if duplicates are being missed
+#   on an older x86 server (the int8 file is tuned for CPUs with AVX-512 VNNI).
+embedder_file = "onnx/model_qint8_avx512_vnni.onnx"
+threads = 2                    # CPU threads for the model; 2 is right for a 2-core VPS
+
+[storage]
+database_url = ""              # blank = SQLite file in the home directory; or "postgresql+asyncpg://user:pass@host/db"
+keep_embeddings_days = 30      # embeddings of posts older than this are purged (the text stays)
+keep_posts_days = 0            # posts older than this are purged; 0 = keep forever
+
+# ------------------------------------------------------------------------------------------
+# Topics. Four examples to keep, edit or remove; each has channel = 0 (tracked only, nothing
+# posted) until you give it a channel here or with /topics in the bot.
+#
+#   key             stable id, never changed after creation; a-z, 0-9, "-", "_" (max 32)
+#   name            shown in the channel and in reports
+#   channel         numeric id, "@username" or t.me link of the private channel the topic posts
+#                   to; 0 = no channel yet. The bot rewrites @username/link to the numeric id.
+#   category        optional built-in category key; the list: `curator topics categories`
+#                   (tech, science, finance, crypto, politics, world, sport, health, education,
+#                   culture, real_estate, jobs, travel, auto, society, disaster, religion,
+#                   lifestyle, humor, ads). A topic with a category works from the first post;
+#                   a topic without one (a region, a company, a niche) needs a few example posts
+#                   (bot: /topics, the topic, Edit, Add examples) or an example_channel before
+#                   it sorts anything.
+#   description     optional, any language
+#   example_channel optional @username/link of a channel that is a good example of the topic
+#   strictness      optional per-topic confidence threshold; 0 = use [sorting].confidence
+
+[[topics]]
+key = "ml-ai"
+name = "ML & AI"
+channel = 0
+category = "tech"
+description = "Machine learning and AI: new models, research results, tools, releases and industry news."
+example_channel = ""
+strictness = 0.0
+
+[[topics]]
+key = "fintech"
+name = "Fintech"
+channel = 0
+category = "finance"
+description = "Payments, banking apps, neobanks, card schemes, fintech funding and regulation."
+example_channel = ""
+strictness = 0.0
+
+[[topics]]
+key = "uzbekistan"
+name = "Узбекистан: новости"
+channel = 0
+category = ""                  # a regional topic has no built-in category: give it an example channel
+description = "Новости Узбекистана: экономика, политика, общество, города и регионы."
+example_channel = ""           # e.g. "@kunuz" — or forward posts in /topics: Edit, Add examples
+strictness = 0.0
+
+[[topics]]
+key = "football"
+name = "Футбол"
+channel = 0
+category = "sport"
+description = ""
+example_channel = ""
+strictness = 0.0
+
+# ------------------------------------------------------------------------------------------
+# Trusted sources. Chats not listed here are neutral (trust 1).
+#
+#   chat    numeric id, "@username" or t.me link (rewritten to the numeric id once resolved)
+#   trust   0 digest-only · 1 neutral · 2 needs less corroboration · 3 always immediate
+#
+# [[sources]]
+# chat = "@example"
+# trust = 3

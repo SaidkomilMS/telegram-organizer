@@ -1,0 +1,30 @@
+# secrets and runtime state never go into an image. Patterns here match at the top only, on
+# purpose: a `**/settings.toml` would also drop the message catalogue locales/en/settings.toml.
+.env
+data/
+*.session
+*.session*
+settings.toml
+*.db
+*.db-wal
+*.db-shm
+curator.db*
+models/
+messages.toml
+control.sock
+service.lock
+
+# build noise
+.git/
+.build/
+**/__pycache__/
+.venv/
+**/*.py[cod]
+*.egg-info/
+dist/
+build/
+.pytest_cache/
+.ruff_cache/
+.idea/
+.vscode/
+.DS_Store

@@ -1,0 +1,5 @@
+# Real-time publishing (DESIGN §9.4): the button under a post in a topic channel. Everything
+# else the publisher writes (source line, media line, "+N more", stubs) is rendered by
+# pipeline/render.py from render.toml.
+
+publisher_wrong_topic = "Wrong topic"

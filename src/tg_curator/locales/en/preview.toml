@@ -1,0 +1,29 @@
+# /preview in the bot (DESIGN §11.2, §9.6). HTML is allowed; {placeholders} are filled with
+# str.format. Nothing is ever posted by a preview, and the texts say so.
+
+preview_help = "what the last three days would have looked like; /preview <topic> for each decision"
+
+# --- reading the backlog ---
+preview_reading = "Reading the last three days from {total} chats… {done}/{total}"
+preview_already_reading = "The last three days are being read already; the summary follows when that is done."
+preview_read_done = "Read {messages} messages from {chats} chats ({new} new posts stored). Nothing was posted."
+preview_cannot_read = "The account is not bound, so no history can be read now (send /bind). The preview below uses what is already stored."
+
+# --- the summary ---
+preview_summary_head = "<b>Preview of the last {days} days</b> with the current settings. Nothing was posted."
+preview_summary_topic = "<b>{name}</b>: {count} posts"
+preview_summary_tracked = " (no channel yet: tracked only)"
+preview_summary_repeats = "<b>Repeats</b>: {count} (each would have counted for the original only)"
+preview_summary_unsorted = "<b>Unsorted</b>: {count} (no topic was sure enough)"
+preview_summary_ignored = "<b>Ignored</b>: {count} (no text)"
+preview_summary_foot = "Tap a topic below (or send /preview &lt;topic&gt;) to see each decision; a wrong one is fixed with a tap and the curator learns from it."
+preview_example_line = "• {text} — <i>{source}</i>"
+
+# --- /preview <topic> ---
+preview_unknown_topic = "There is no topic called <b>{name}</b>. Pick one:"
+preview_topic_empty = "Nothing went to <b>{name}</b> in the last {days} days."
+preview_item = "{n}. {when} · <b>{source}</b>\n{text}\n→ {topic} ({confidence}), digest"
+preview_item_immediate = "{n}. {when} · <b>{source}</b>\n{text}\n→ {topic} ({confidence}), would go out immediately"
+preview_page = "<b>{name}</b>: decisions {first}–{last} of {total}."
+preview_prev = "‹ Previous"
+preview_next = "Next ›"

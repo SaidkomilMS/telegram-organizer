@@ -1,0 +1,35 @@
+# Owner notifications (DESIGN §11.4): exactly the six kinds the Notifier can send, nothing
+# else. HTML is allowed; {placeholders} are filled with str.format. Plain-text values such as
+# titles and names are HTML-escaped by notify.py before they reach these strings.
+
+# 1. the digest line, one per run ("(manual)" is prefixed by the digest service for a manual send)
+notify_digest = "Digest sent — {summary}"
+
+# 2. one message per proposal on review day; {title} is the chat or topic name, {reason} the
+#    plain-words explanation with the numbers
+#    The review opens with one line per topic accepted since the last review (§17.6).
+notify_review_absorbed = "📥 <b>{topic}</b> absorbed {absorbed} of {unsorted} unsorted posts since {since}"
+notify_proposal_folder = "📁 <b>Move to the “{folder}” folder</b> · {title}\n{reason}"
+notify_proposal_mute = "🔕 <b>Mute</b> · {title}\n{reason}"
+notify_proposal_archive = "🗄 <b>Archive and mute</b> · {title}\n{reason}"
+notify_proposal_leave = "🚪 <b>Leave</b> · {title}\n{reason}\nLeaving cannot be undone without a new invitation."
+notify_proposal_new_topic = "✨ <b>New topic: {title}</b>\n{reason}"
+notify_proposal_merge_topics = "🔀 <b>Merge topics</b> · {title}\n{reason}"
+
+# 3. intake stopped / session lost
+notify_intake_stalled = "⚠️ Nothing has been ingested for over an hour and the account does not answer. Check the service log; if the session is gone, send /bind."
+notify_session_lost = "⚠️ The account session is lost (signed out from another device, or expired). Send /bind to sign in again. Posting continues; intake is paused until then."
+
+# 4. the bot cannot post into a topic channel (once per channel until it recovers)
+notify_cannot_post = "⚠️ The bot cannot post into <b>{channel}</b>: add the bot as an admin with Post Messages. Posts for that topic wait until it can."
+
+# 5. the once-a-month LLM cap line, or the provider's own out-of-credit refusal (one of the two
+#    per month)
+notify_llm_cap_reached = "The language-model spending cap of ${cap:.2f} for {month} is reached. Digests show first lines until next month; raise the cap with /llm."
+notify_llm_out_of_credit = "{provider} reports the account is out of credit; digests use first lines until {until}. Top up the account, or choose another model with /llm."
+
+# 6. auto mode only: a topic was created without asking
+notify_topic_created = "Created the topic <b>{name}</b> and its private channel (automatic mode). Use /topics to rename or remove it."
+#    ... when channel pacing kept its private channel from being created yet
+notify_topic_created_wait = "Created the topic <b>{name}</b> (automatic mode). Its private channel is not created yet: Telegram asks to wait {minutes} min; it will be created automatically then, and I will let you know. Until then the topic is tracked in the statistics only. Use /topics to rename or remove it."
+notify_topic_created_no_channel = "Created the topic <b>{name}</b> (automatic mode). It has no private channel yet; it will be created automatically as soon as Telegram allows, and I will let you know. Until then the topic is tracked in the statistics only. Use /topics to rename or remove it."

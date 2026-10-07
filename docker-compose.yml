@@ -1,0 +1,26 @@
+# tg-curator with Docker Compose: copy .env.example to .env, fill in the three values, then
+#   docker compose up -d && docker compose logs -f
+# Everything the curator keeps (settings, database, sessions, model) is in the curator-data
+# volume. See docs/install.md.
+services:
+  tg-curator:
+    image: tg-curator:local     # built from this checkout; `git pull && docker compose up -d --build` upgrades
+    build: .
+    env_file: .env
+    volumes:
+      - curator-data:/data
+    # Safe with an incomplete setup: the image waits for settings instead of exiting.
+    restart: unless-stopped
+    init: true
+    stop_grace_period: 30s
+    # Lets a language model running on this host be reached as http://host.docker.internal:<port>.
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+volumes:
+  curator-data:

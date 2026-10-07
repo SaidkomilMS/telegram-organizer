@@ -1,0 +1,83 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "tg-curator"
+version = "0.1.0"
+description = "Sorts everything your Telegram channels and groups publish into topic channels and a daily digest, locally."
+readme = "README.md"
+license = "MIT"
+license-files = ["LICENSE"]
+requires-python = ">=3.12"
+authors = [{ name = "tg-curator contributors" }]
+keywords = ["telegram", "digest", "curation", "telethon"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Environment :: Console",
+    "Intended Audience :: End Users/Desktop",
+    "Operating System :: POSIX :: Linux",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Communications :: Chat",
+]
+dependencies = [
+    "telethon>=1.45,<2",
+    "cryptg",
+    "sqlalchemy[asyncio]>=2.0",
+    "aiosqlite",
+    "pydantic>=2",
+    "tomlkit",
+    "click>=8",
+    "numpy",
+    "onnxruntime",
+    "tokenizers",
+    "huggingface_hub",
+    "httpx",
+]
+
+[project.optional-dependencies]
+postgres = ["asyncpg"]
+dev = ["pytest", "pytest-asyncio", "ruff", "pyyaml"]
+
+[project.scripts]
+curator = "tg_curator.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/SaidkomilMS/telegram-organizer"
+
+# Package data: the settings template, the systemd unit and every message catalogue are part
+# of the wheel so `curator` works from a plain `pip install`.
+[tool.hatch.build.targets.wheel]
+packages = ["src/tg_curator"]
+include = [
+    "src/tg_curator/**/*.py",
+    "src/tg_curator/data/*.toml",
+    "src/tg_curator/data/*.service",
+    "src/tg_curator/locales/**/*.toml",
+    "src/tg_curator/ml/data/*.npz",
+]
+
+[tool.hatch.build.targets.sdist]
+include = ["src/tg_curator", "tests", "README.md", "LICENSE", "pyproject.toml"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+src = ["src", "tests"]
+extend-exclude = [".build"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "N", "W"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["tg_curator"]
+
+[tool.ruff.lint.per-file-ignores]
+# The exception names are part of the build contract (DESIGN §5) and read like Telegram's.
+"src/tg_curator/errors.py" = ["N818"]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]
+markers = ["models: needs the real local models"]

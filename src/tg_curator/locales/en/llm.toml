@@ -1,0 +1,96 @@
+# /llm — choosing, testing and saving the language model (DESIGN §11.2 llm.py, §14.18, §15).
+# HTML is allowed; {placeholders} are filled with str.format. Values such as model names,
+# addresses and post labels are HTML-escaped by bot/llm.py before they reach these strings.
+
+llm_help_llm = "connect a language model for digest summaries (or none)"
+
+# --- the menu: three choices, one line each on cost and privacy ---
+llm_menu = """<b>Language model</b> — now: {current}
+
+<b>None</b> — free. Nothing leaves the server: digest lines are the first line of each post.
+<b>Self-hosted</b> — free per request (you run the server). Post text goes only to your own server.
+<b>Provider</b> — a few cents a month (about $0.03–$0.62 for ~450 digest lines). The text of posts picked for a digest is sent to the provider you pick."""
+llm_current_none = "none"
+llm_current_selfhosted = "self-hosted <code>{model}</code> at {base_url}"
+llm_current_provider = "{provider} <code>{model}</code>, monthly cap: {cap}"
+llm_cap_value = "${cap:.2f}"
+llm_cap_unset = "none"
+llm_choice_none = "None"
+llm_choice_selfhosted = "Self-hosted"
+llm_choice_provider = "Provider"
+llm_cap_button = "Monthly cap"
+llm_opinion_button = "Second opinion: {state}"
+llm_pick_button = "Tap one of the buttons above."
+llm_saved_none = "Saved: no language model. Nothing leaves the server; digests show the first line of each post."
+llm_continue_setup = "Continue setup"
+
+# --- the privacy lines (§11.2); {test_post} is "<source, date>" of the test post ---
+llm_privacy_provider = "Sent to {provider}: the text of posts picked for a digest, the example posts behind a proposed topic, one post for this test ({test_post}), and — only if you turn on second opinion — borderline posts. Nothing else, never chat names or identifiers."
+llm_privacy_selfhosted = "Sent to your server at {base_url}: the text of posts picked for a digest, the example posts behind a proposed topic, one post for this test ({test_post}), and — only if you turn on second opinion — borderline posts. Nothing else, never chat names or identifiers."
+llm_sample_label = "a bundled sample paragraph, no post of yours"
+
+# --- self-hosted: preset -> address -> token -> model ---
+llm_selfhosted_intro = "Which server runs your model? Any OpenAI-compatible server works."
+llm_preset_other = "Other"
+llm_address_preset = "{label} usually listens at <code>{url}</code>. Tap the button to use it, or send the address of your server."
+llm_address_use = "Use {url}"
+llm_address_other = "Send the address of your server, for example <code>http://192.168.1.20:8000</code>."
+llm_address_bad = "That is not an address. Send something like <code>http://localhost:11434</code>."
+llm_token_prompt = """{privacy}
+
+If your server needs a token, send it now: the message is deleted right after it is read. Otherwise tap <b>No token</b>."""
+llm_token_none = "No token"
+llm_token_refused = "The server refused that token. Send the right one (the message is deleted right away), or tap <b>No token</b>."
+llm_server_unreachable = "Could not ask {base_url} for its models: {error}. Check that the server is running and reachable from this machine, then send the address again."
+llm_token_again = "The service restarted, so the token is gone (it is never written down before the test passes). Send it again, please."
+
+# --- provider: provider -> key -> model ---
+llm_provider_intro = "Which provider? You need an API key from its website."
+llm_key_prompt = """{privacy}
+
+Paste your {provider} API key. The message is deleted right after it is read; the key is saved only after the test below succeeds."""
+llm_key_empty = "That message was empty. Paste the API key."
+llm_key_refused = "{provider} refused that key. Check it and paste it again (the message is deleted right away)."
+llm_key_unchecked = "The key could not be checked: {error}. Paste it again in a moment."
+llm_secret_again = "The service restarted, so the key is gone (it is never written down before the test passes). Paste it again, please."
+
+# --- model and test ---
+llm_model_prompt = "Pick a model, or type the id of another one."
+llm_model_type = "Type the name of the model to use (as your server or provider lists it)."
+llm_testing = "Testing <code>{model}</code>: summarising one post ({test_post})…"
+llm_test_ok = """The model answered in {seconds} s:
+<i>{line}</i>
+
+Saved.{notes}"""
+llm_test_sample_used = "No stored post of 200 characters or more exists yet, so the bundled sample paragraph was used for the test."
+llm_test_slow = "⚠️ That took {seconds} s for one line. A digest of fifteen lines will be slow; a smaller or faster model is advisable."
+llm_test_failed = """The test failed after {seconds} s, so nothing was saved. {reason}
+
+Tap <b>Try again</b> to repeat the test, or type another model name."""
+# --- why the test failed: {reason} above; one of these, named by the error itself ---
+llm_fail_auth = "{provider} refused the key or token (or it may not use <code>{model}</code>). Check it and enter it again."
+llm_fail_model = "<code>{model}</code> is not served by {provider}. Type another model name."
+llm_fail_timeout = "No answer within {timeout} s. Pick a smaller or faster model, or raise <code>llm.timeout_seconds</code> in settings.toml."
+llm_fail_unreachable = "Cannot reach {base_url}. Check that the server is running and reachable from this machine."
+llm_fail_unavailable = "{provider} is overloaded or failing right now ({detail}). Try again in a few minutes."
+llm_fail_credit = "{provider} says the account is out of credit or over its spending limit. Top it up or raise the limit on its website, then try again."
+llm_fail_cap = "This month's spending cap of {cap} is reached. Raise <code>llm.monthly_cap_usd</code> (<b>Monthly cap</b> in /llm), or wait for next month."
+llm_fail_request = "{provider} refused the request: {detail}"
+llm_fail_empty = "The model returned an empty answer (a refusal or a safety block). Try again, or type another model name."
+llm_saved = "Digests will now use it for one-line summaries."
+
+# --- monthly cap ---
+llm_cap_prompt = "Monthly spending cap in US dollars (now: {current}). Send an amount such as <code>2</code>, or tap <b>No cap</b>. When the cap is reached, digests show first lines until the month ends."
+llm_cap_none_button = "No cap"
+llm_cap_bad = "Send an amount in dollars such as <code>2</code> or <code>0.50</code> (0 = no cap)."
+llm_cap_saved = "Monthly cap: {cap}."
+llm_cap_provider_only = "A spending cap applies to a provider only; a self-hosted model costs nothing per request."
+
+# --- second opinion ---
+llm_opinion_needs_model = "Second opinion needs a connected model: choose Self-hosted or Provider first."
+llm_opinion_on = "Second opinion is on. Borderline posts — the ones that almost reach a topic's threshold — are now also sent to {target}, one request each. Nothing else, never chat names or identifiers."
+llm_opinion_server = "your server at {base_url}"
+llm_opinion_off = "Second opinion is off: the classifier alone decides."
+
+# --- the bundled test paragraph (used when no stored post of >= 200 characters exists) ---
+test_sample = "Ташкентский метрополитен открыл новую станцию на кольцевой линии: по данным городской администрации, поездка от окраины до центра теперь занимает около двадцати минут. Toshkent metropoliteni halqa liniyasida yangi bekat ochdi, yo'lovchilar soni kuniga o'n ming kishiga oshishi kutilmoqda. The city says trains will run every six minutes at peak hours from next Monday."
